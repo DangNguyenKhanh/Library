@@ -1,4 +1,4 @@
-Cách láy khoảng trắng của chuỗi:
+Cách lấy khoảng trắng của chuỗi:
   #include<stdio.h>
   void main()
   {
