@@ -3,16 +3,20 @@ LỚP KẾ THỪA
 cin là đối tượng lớp istream
 
 KÍ HIỆU:
-    '\n': Xuống dòng <enter>, không được nhập \n vào input stream
+    '\n': là kí tự xuống dòng <enter>, không được nhập \n vào input stream
     '\0': Kí tự kết thúc của mảng kí tự 
     
+CHỈ ĐƯỢC NHẬP THÊM TỪ BÀN PHÍM KHI INPUT STREAM TRỐNG
+
+
 ------------------------------------------------------------------------------------------------------
 Nhập dữ liệu bằng đối tượng cin:
     int a;
     cin >> a;
     
 1. cin sẽ bỏ đi kí tự khoảng trắng cho đến khi gặp được kí số: 
-    Example:   "           10"   =>    a = 10
+    Example:   "           10"          =>    a = 10
+    Example:   "<enter>     c"          =>    a = 'c'
         
 2. cin sẽ ngắt số nếu gặp khoảng trắng:
     Example:   "100 200"   =>    a = 100
@@ -51,18 +55,28 @@ Nhập dữ liệu bằng đối tượng cin:
     cin >> str2;    // str2 = "567\0"   input = "\n"
     cout << str1 << " " << str2 << endl;    //  "123 567"
         
+
 ------------------------------------------------------------------------------------------------------
-Sử dụng cin.clear() xóa bỏ trạng thái lỗi:
+ios& cin.clear() xóa bỏ trạng thái lỗi:
     Lấy dữ liệu từ biểu thức toán học: 
     Example: 3 * 4  => int a = 3, int b = 4, char symbol = '*'
       
     int a, b;
     char symbol;
-    cin >> a;       // a = 3
+    cin >> a;       // "3 * 4"      a = 3
     cin.clear();    // giữ lại input stream không xóa,          input stream = " * 4"
     cin >> symbol;  // bỏ qua kí tự trắng để symbol = '*',      input stream = " 4"
     cin.clear();    // giữ lại input stream không xóa,          input stream = " 4"
     cin >> b;       // bỏ qua kí tự trắng để b = 4,             input stream = ""
+
+    int a, b;
+    char symbol;
+    cin >> a;       
+    cin.ignore(1);
+    cin >> symbol;  
+    cin.ignore(1);
+    cin >> b;       
+
 
 ------------------------------------------------------------------------------------------------------
 Nhập từ bàn phím LẤY RA KÍ TỰ ĐẦU TIÊN, trả về mã ascii của kí tự đó bằng int cin.get()  
@@ -115,6 +129,46 @@ Nhập từ bàn phím LẤY RA KÍ TỰ ĐẦU TIÊN, trả về mã ascii củ
     cin.getline(str1, 10).getline(str2, 10);    // "ab\n" và "cd\n"     str1 = "ab\0"   str2 = "cd\0"  
     cout << str1 << " " << str2 << endl;        // "ab cd"
 
-6. 
+    char str1[10], str2[10], str3[10];
+    cin.getline(str1, 5);   
+    // input = "123456789\n"    stream = "123456789"     input = "\n"
+    // str1 = "1234\0"          stream = "56789"         input = "\n"
+   
+    cin.clear();
+    // input = "56789\n"
     
+    cin.getline(str2, 5);
+    // stream = "56789"         str2 = "5678\0"         stream = "9"
+    // input = "\n"             
+
+    cin.clear();
+    // input = "9\n"
+
+    cin.getline(str3, 5);
+    // str3 = "9\0"            input = ""
+
+    cout << str1 << " " << str2 << " " << str3 << endl;   // "1234 5678 9"
+
+6. istream& cin.ignore(int n = 1, char delim = '\n'). "cin" cho nhập, "ignore" giúp bỏ đi n kí tự trên input  
+    char str1[10], str2[10];
+    cin.getline(str1, 5);   
+    // input = "12345\n"    stream = "12345"     input = "\n"
+    // str1 = "1234\0"      stream = "5"         input = "\n"
+   
+    // cin.clear();     cũng cho kết quả tương tự 
+    cin.ignore();
+    // input = "\n" Không có gì để xóa
+    
+    cin.getline(str2, 5);
+    // str2 = ""         input = "\n"
+    cout << str1 << " " << str2 << endl;   // "1234 "
+
+    6.1. cin.ignore(256, ‘\n’)
+        
+    6.2. 
+        #include<ios>       // streamsize
+        #include<limits>    // numeric_limits
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+
     
